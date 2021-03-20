@@ -1,6 +1,5 @@
 package me.yeojoy.livebarn.network
 
-import me.yeojoy.livebarn.model.LbSurface
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection

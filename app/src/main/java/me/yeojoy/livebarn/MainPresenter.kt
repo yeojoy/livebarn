@@ -1,11 +1,11 @@
 package me.yeojoy.livebarn
 
-import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.*
 import me.yeojoy.livebarn.model.LbSurface
 import me.yeojoy.livebarn.network.DataRepository
+import me.yeojoy.livebarn.util.Sorter
 import java.lang.reflect.Type
 
 class MainPresenter(private val view: MainContact.View) : MainContact.Presenter {
@@ -34,9 +34,8 @@ class MainPresenter(private val view: MainContact.View) : MainContact.Presenter 
 
             val rawData = getData()
 
-            for (item in rawData) {
-                Log.d(TAG, "${item.sport} item : ${item.id}, ${item.venueName}, ${item.surfaceName}")
-            }
+            val sorter = Sorter()
+            val sortedData = sorter.sortByTwoFactor(rawData)
         }
     }
 
