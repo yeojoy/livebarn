@@ -14,11 +14,14 @@ class MainPresenter(private val view: MainContact.View) : MainContact.Presenter 
         private val TAG = MainPresenter::class.simpleName
     }
 
+    private var sportMap: HashMap<String, MutableList<LbSurface>> = hashMapOf()
+    private lateinit var keyList: List<String>
+
     private val parentJob = Job()
     private val coroutineExceptionHandler: CoroutineExceptionHandler
             = CoroutineExceptionHandler { _, throwable ->
         coroutineScope.launch(Dispatchers.Main) {
-            view.onLoadSurfaces(null)
+            view.onLoadSurfaces()
         }
 
         GlobalScope.launch { println("Caught $throwable") }
@@ -37,9 +40,23 @@ class MainPresenter(private val view: MainContact.View) : MainContact.Presenter 
             val sorter = Sorter()
             val sortedData = sorter.sortByTwoFactor(rawData)
 
-            val dataMap = divideData(sortedData)
-            view.onLoadSurfaces(dataMap)
+            sportMap.putAll(divideData(sortedData))
+            keyList = sportMap.keys.toList()
+
+            view.onLoadSurfaces()
         }
+    }
+
+    override fun numberOfSports(): Int {
+        return keyList.size
+    }
+
+    override fun getLbSurfacesByKey(key: String): MutableList<LbSurface>? {
+        return sportMap[key]
+    }
+
+    override fun getKeys(): List<String> {
+        return keyList
     }
 
     override fun onViewCreated() {

@@ -1,7 +1,9 @@
 package me.yeojoy.livebarn
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.android.synthetic.main.activity_main.*
 import me.yeojoy.livebarn.model.LbSurface
 
 class MainActivity : AppCompatActivity(), MainContact.View {
@@ -13,6 +15,8 @@ class MainActivity : AppCompatActivity(), MainContact.View {
         setContentView(R.layout.activity_main)
         setPresenter(MainPresenter(this))
         presenter.onViewCreated()
+        setSupportActionBar(toolbar)
+        supportActionBar?.title = getString(R.string.title_main_activity)
 
         presenter.loadSurfaces()
     }
@@ -22,26 +26,14 @@ class MainActivity : AppCompatActivity(), MainContact.View {
         super.onDestroy()
     }
 
-    override fun onLoadSurfaces(surfaces: HashMap<String, MutableList<LbSurface>>?) {
-
-        surfaces?.let {
-            val keys = it.keys
-
-            for (key in keys) {
-
-            }
-        }
+    override fun onLoadSurfaces() {
+        viewPagerSport.adapter = SportTabAdapter(this, presenter)
+        TabLayoutMediator(tabLayout, viewPagerSport) { tab, position ->
+            tab.text = presenter.getKeys()[position]
+        }.attach()
     }
 
     override fun setPresenter(presenter: MainContact.Presenter) {
         this.presenter = presenter
-    }
-
-    override fun onSuccessCall() {
-
-    }
-
-    override fun onFailCall() {
-
     }
 }

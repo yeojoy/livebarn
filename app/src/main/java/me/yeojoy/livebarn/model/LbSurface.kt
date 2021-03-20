@@ -8,6 +8,9 @@ import kotlinx.android.parcel.Parcelize
  *
  * Android already has Surface class for android view
  * So add prefix "Lb(LiveBarn)" to divide them to use.
+ *
+ * isTitle: Boolean -> this value is for adding a title in recyclerview. if true, it's a title
+ * and it has only venueName
  */
 @Parcelize
 data class LbSurface(
@@ -16,5 +19,6 @@ data class LbSurface(
     var venueName: String?,
     var sport: String?,
     var status: String?,
-    var server: LbServer?
+    var server: LbServer?,
+    var isTitle: Boolean = false
 ) : Parcelable

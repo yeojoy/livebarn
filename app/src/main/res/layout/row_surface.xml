@@ -9,7 +9,7 @@
         android:id="@+id/imageViewSurface"
         android:layout_width="@dimen/size_surface_image"
         android:layout_height="@dimen/size_surface_image"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="14dp"
         android:contentDescription="@string/content_description_surface"
         android:scaleType="centerInside"
         app:layout_constraintBottom_toBottomOf="parent"

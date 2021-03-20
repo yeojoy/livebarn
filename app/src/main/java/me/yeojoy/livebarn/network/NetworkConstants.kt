@@ -8,8 +8,7 @@ object NetworkConstants {
     const val CONNECTION_TIMEOUT = 10000
 
     const val METHOD_GET = "GET"
-    const val CHARSET_NAME = "UTF-8"
 
-    const val SERVER_ERROR_CODE = 500
-    const val CLIENT_ERROR_CODE = 400
+    const val ODD_IMAGE_URL = "https:/via.placeholder.com/300/202020"
+    const val EVEN_IMAGE_URL = "https:/via.placeholder.com/300/808080"
 }
