@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_tab.*
 import me.yeojoy.livebarn.R
@@ -51,7 +52,12 @@ class TabPageFragment : Fragment(), TabPageContract.View {
         recyclerViewSurfaces.layoutManager = LinearLayoutManager(requireContext(),
             LinearLayoutManager.VERTICAL, false)
         recyclerViewSurfaces.adapter = SurfaceAdapter(presenter)
+        recyclerViewSurfaces.addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
+    }
 
+    override fun onDestroyView() {
+        (recyclerViewSurfaces.adapter as SurfaceAdapter).closeCoroutine()
+        super.onDestroyView()
     }
 
     override fun onClickItem(item: LbSurface) {

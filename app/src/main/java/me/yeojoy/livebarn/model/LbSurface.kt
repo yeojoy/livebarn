@@ -20,5 +20,6 @@ data class LbSurface(
     var sport: String?,
     var status: String?,
     var server: LbServer?,
+    var imageUrl: String?,
     var isTitle: Boolean = false
 ) : Parcelable

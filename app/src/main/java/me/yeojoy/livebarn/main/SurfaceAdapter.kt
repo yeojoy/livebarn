@@ -2,6 +2,8 @@ package me.yeojoy.livebarn.main
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,17 +14,17 @@ import kotlinx.coroutines.*
 import me.yeojoy.livebarn.R
 import me.yeojoy.livebarn.model.LbSurface
 import me.yeojoy.livebarn.network.NetworkConstants
+import java.net.HttpURLConnection
 import java.net.URL
 
 class SurfaceAdapter(private val presenter: TabPageContract.Presenter)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
+        private val TAG = SurfaceAdapter::class.simpleName
         private const val VIEW_TYPE_VENUE = 1
         private const val VIEW_TYPE_SURFACE = 2
     }
-
-    private var itemSizeInSameVenue: Int = 0
 
     private val parentJob = Job()
 
@@ -64,23 +66,20 @@ class SurfaceAdapter(private val presenter: TabPageContract.Presenter)
 
     private fun bindVenuViewHolder(viewHolder: VenueViewHolder, surface: LbSurface) {
         viewHolder.textViewVenueName.text = surface.venueName
-        itemSizeInSameVenue = 0
     }
 
     private fun bindSurfaceViewHolder(viewHolder: SurfaceViewHolder, surface: LbSurface) {
-        itemSizeInSameVenue++
         viewHolder.textViewSurfaceName.text = surface.surfaceName
         viewHolder.textViewIp.text = surface.server?.ip4
 
-        coroutineScope.launch(Dispatchers.Main) {
-            val url = when (itemSizeInSameVenue % 2 == 1) {
-                true -> NetworkConstants.ODD_IMAGE_URL
-                else -> NetworkConstants.EVEN_IMAGE_URL
-            }
+        // set a placeholder
+        viewHolder.imageViewSurface.setImageResource(R.drawable.ic_launcher_background)
 
-            // TODO Caching image
-            val bitmap = getImage(url)
-            viewHolder.imageViewSurface.setImageBitmap(bitmap)
+        coroutineScope.launch(Dispatchers.Main) {
+            surface.imageUrl?.let {
+                val bitmap = getImage(it)
+                viewHolder.imageViewSurface.setImageBitmap(bitmap)
+            }
         }
     }
 
@@ -91,6 +90,10 @@ class SurfaceAdapter(private val presenter: TabPageContract.Presenter)
     override fun getItemViewType(position: Int): Int {
         return if (presenter.surfaceAt(position).isTitle) VIEW_TYPE_VENUE
             else VIEW_TYPE_SURFACE
+    }
+
+    fun closeCoroutine() {
+        coroutineScope.cancel()
     }
 
     inner class SurfaceViewHolder(itemView: View, val itemClickListener : (position: Int) -> Unit)
@@ -115,8 +118,14 @@ class SurfaceAdapter(private val presenter: TabPageContract.Presenter)
 
     private suspend fun getImage(urlAddress: String): Bitmap =
         withContext(Dispatchers.IO) {
-            URL(urlAddress).openStream().use {
-                return@withContext BitmapFactory.decodeStream(it)
-            }
+            val httpUrlConnection = URL(urlAddress).openConnection() as HttpURLConnection
+
+            httpUrlConnection.requestMethod = NetworkConstants.METHOD_GET
+            httpUrlConnection.readTimeout = NetworkConstants.READ_TIMEOUT
+            httpUrlConnection.connectTimeout = NetworkConstants.CONNECTION_TIMEOUT
+            httpUrlConnection.setRequestProperty(NetworkConstants.HEADER_USER_AGENT,
+                "Android ${Build.DEVICE}")
+
+            BitmapFactory.decodeStream(httpUrlConnection.inputStream)
         }
 }

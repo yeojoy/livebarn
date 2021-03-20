@@ -9,6 +9,8 @@ object NetworkConstants {
 
     const val METHOD_GET = "GET"
 
-    const val ODD_IMAGE_URL = "https:/via.placeholder.com/300/202020"
-    const val EVEN_IMAGE_URL = "https:/via.placeholder.com/300/808080"
+    const val ODD_IMAGE_URL = "https://via.placeholder.com/300/202020"
+    const val EVEN_IMAGE_URL = "https://via.placeholder.com/300/808080"
+
+    const val HEADER_USER_AGENT = "User-Agent"
 }
