@@ -36,6 +36,9 @@ class MainPresenter(private val view: MainContact.View) : MainContact.Presenter 
 
             val sorter = Sorter()
             val sortedData = sorter.sortByTwoFactor(rawData)
+
+            val dataMap = divideData(sortedData)
+            view.onLoadSurfaces(dataMap)
         }
     }
 
@@ -45,6 +48,23 @@ class MainPresenter(private val view: MainContact.View) : MainContact.Presenter 
 
     override fun onViewDestroyed() {
         coroutineScope.cancel()
+    }
+
+    private fun divideData(items: List<LbSurface>) : HashMap<String, MutableList<LbSurface>> {
+        val dataMap = hashMapOf<String, MutableList<LbSurface>>()
+        for (item in items) {
+            if (dataMap.containsKey(item.sport)) {
+                val list = dataMap.get(item.sport)
+                list?.add(item)
+            } else {
+                val list = mutableListOf<LbSurface>()
+                list.add(item)
+                item.sport?.let {
+                    dataMap.put(it, list)
+                }
+            }
+        }
+        return dataMap
     }
 
     private suspend fun getData(): List<LbSurface> =

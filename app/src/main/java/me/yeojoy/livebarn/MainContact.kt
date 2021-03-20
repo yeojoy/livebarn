@@ -11,6 +11,6 @@ class MainContact {
     }
 
     interface View : BaseView<Presenter>, NetworkView {
-        fun onLoadSurfaces(surfaces: HashMap<String, LbSurface>?)
+        fun onLoadSurfaces(surfaces: HashMap<String, MutableList<LbSurface>>?)
     }
 }

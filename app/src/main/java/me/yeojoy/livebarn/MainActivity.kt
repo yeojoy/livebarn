@@ -22,8 +22,15 @@ class MainActivity : AppCompatActivity(), MainContact.View {
         super.onDestroy()
     }
 
-    override fun onLoadSurfaces(surfaces: HashMap<String, LbSurface>?) {
+    override fun onLoadSurfaces(surfaces: HashMap<String, MutableList<LbSurface>>?) {
 
+        surfaces?.let {
+            val keys = it.keys
+
+            for (key in keys) {
+
+            }
+        }
     }
 
     override fun setPresenter(presenter: MainContact.Presenter) {
