@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Live Barn</string>
+
+    <string name="title_main_activity">Surface</string>
+
+    <string name="content_description_surface">This is a surface image.</string>
 </resources>
