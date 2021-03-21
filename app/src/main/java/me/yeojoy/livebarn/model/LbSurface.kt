@@ -1,8 +1,18 @@
 package me.yeojoy.livebarn.model
 
 import android.os.Parcelable
+import com.google.gson.Gson
 import kotlinx.android.parcel.Parcelize
 
+/**
+ * This is a principal model. Surface is a certain field in venues.
+ *
+ * Android already has Surface class for android view
+ * So add prefix "Lb(LiveBarn)" to divide them to use.
+ *
+ * isTitle: Boolean -> this value is for adding a title in recyclerview. if true, it's a title
+ * and it has only venueName
+ */
 @Parcelize
 data class LbSurface(
     var id: Int,
@@ -10,5 +20,11 @@ data class LbSurface(
     var venueName: String?,
     var sport: String?,
     var status: String?,
-    var server: LbServer?
-) : Parcelable
+    var server: LbServer?,
+    var imageUrl: String?,
+    var isTitle: Boolean = false
+) : Parcelable {
+    override fun toString(): String {
+        return Gson().toJson(this)
+    }
+}

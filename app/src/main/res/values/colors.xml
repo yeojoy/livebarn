@@ -7,4 +7,15 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="background_row_title">#FFE5E5E5</color>
+
+    <!-- day -->
+    <color name="text_main">@color/black</color>
+    <color name="text_sub">#FF333333</color>
+
+    <!-- night -->
+    <color name="text_main_night">#FFF0F0F0</color>
+    <color name="text_sub_night">#FFDEDEDE</color>
+
 </resources>
