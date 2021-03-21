@@ -4,4 +4,5 @@
     <string name="title_main_activity">Surface</string>
 
     <string name="content_description_surface">This is a surface image.</string>
+    <string name="content_description_close_button">This is a close button.</string>
 </resources>

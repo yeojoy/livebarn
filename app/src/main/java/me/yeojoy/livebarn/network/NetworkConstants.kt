@@ -12,5 +12,7 @@ object NetworkConstants {
     const val ODD_IMAGE_URL = "https://via.placeholder.com/300/202020"
     const val EVEN_IMAGE_URL = "https://via.placeholder.com/300/808080"
 
+    const val VIDEO_URL = "https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_4x3/bipbop_4x3_variant.m3u8"
+
     const val HEADER_USER_AGENT = "User-Agent"
 }

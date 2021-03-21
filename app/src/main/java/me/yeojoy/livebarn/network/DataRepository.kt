@@ -10,7 +10,7 @@ class DataRepository {
     fun requestData() : String {
         val httpConnection = getGetMethodConnection(NetworkConstants.API_URL)
 
-        when (httpConnection.responseCode) {
+        return when (httpConnection.responseCode) {
             HttpURLConnection.HTTP_OK -> {
                 val stringBuilder = StringBuilder()
                 val bufferedReader = BufferedReader(InputStreamReader(httpConnection.inputStream))
@@ -18,9 +18,9 @@ class DataRepository {
                     val readString: String = bufferedReader.readLine() ?: break
                     stringBuilder.append(readString)
                 }
-                return stringBuilder.toString()
+                stringBuilder.toString()
             }
-            else -> return ""
+            else -> ""
         }
     }
 
@@ -30,8 +30,6 @@ class DataRepository {
         httpConnection.readTimeout = NetworkConstants.READ_TIMEOUT
         httpConnection.connectTimeout = NetworkConstants.CONNECTION_TIMEOUT
         httpConnection.requestMethod = NetworkConstants.METHOD_GET
-//        val outputStream = httpConnection.outputStream
-//        val bufferedWriter = BufferedWriter(OutputStreamWriter(outputStream, NetworkConstants.CHARSET_NAME))
         return httpConnection
     }
 }

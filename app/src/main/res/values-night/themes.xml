@@ -12,5 +12,9 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+
+        <!-- text color -->
+        <item name="android:textColorPrimary">@color/text_main_night</item>
+        <item name="android:textColorSecondary">@color/text_sub_night</item>
     </style>
 </resources>

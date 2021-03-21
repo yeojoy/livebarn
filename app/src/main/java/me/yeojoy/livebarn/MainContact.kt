@@ -4,7 +4,7 @@ import me.yeojoy.livebarn.model.LbSurface
 import me.yeojoy.mtlhouse.app.BasePresenter
 import me.yeojoy.mtlhouse.app.BaseView
 
-class MainContact {
+interface MainContact {
     interface Presenter : BasePresenter {
         fun loadSurfaces()
         fun numberOfSports(): Int
