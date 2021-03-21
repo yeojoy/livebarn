@@ -1,6 +1,7 @@
 package me.yeojoy.livebarn.model
 
 import android.os.Parcelable
+import com.google.gson.Gson
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -22,4 +23,8 @@ data class LbSurface(
     var server: LbServer?,
     var imageUrl: String?,
     var isTitle: Boolean = false
-) : Parcelable
+) : Parcelable {
+    override fun toString(): String {
+        return Gson().toJson(this)
+    }
+}

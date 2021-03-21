@@ -1,6 +1,5 @@
 package me.yeojoy.livebarn.util
 
-import android.util.Log
 import me.yeojoy.livebarn.model.LbSurface
 
 class Sorter {
@@ -8,16 +7,11 @@ class Sorter {
         private val TAG = Sorter::class.simpleName
     }
 
+    /**
+     * Sort response data with venue name and surface name
+     * First venue name and then surface name
+     */
     fun sortByTwoFactor(data: List<LbSurface>): List<LbSurface> {
-
-        val sortedData = data.sortedWith(compareBy({ it.venueName }, { it.surfaceName }))
-
-//        for ((index, item) in data.withIndex()) {
-//            val sortedItem = sortedData[index]
-//
-//            Log.d(TAG, "item / soretedItem venue : ${item.venueName} / ${sortedItem.venueName} " +
-//                    "::: surface : ${item.surfaceName} / ${sortedItem.surfaceName} ")
-//        }
-        return sortedData
+        return data.sortedWith(compareBy({ it.venueName }, { it.surfaceName }))
     }
 }
