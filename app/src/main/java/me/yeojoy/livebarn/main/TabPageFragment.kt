@@ -3,6 +3,7 @@ package me.yeojoy.livebarn.main
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import me.yeojoy.livebarn.R
 import me.yeojoy.livebarn.app.Constants
+import me.yeojoy.livebarn.customview.StickHeaderItemDecoration
 import me.yeojoy.livebarn.detail.VideoActivity
 import me.yeojoy.livebarn.model.LbSurface
 import me.yeojoy.livebarn.network.NetworkConstants
@@ -56,8 +58,11 @@ class TabPageFragment : Fragment(), TabPageContract.View {
         recyclerViewSurfaces = view.findViewById(R.id.recyclerViewSurfaces)
         recyclerViewSurfaces.layoutManager = LinearLayoutManager(requireContext(),
             LinearLayoutManager.VERTICAL, false)
-        recyclerViewSurfaces.adapter = SurfaceAdapter(presenter)
+        val adapter = SurfaceAdapter(presenter)
+        recyclerViewSurfaces.adapter = adapter
         recyclerViewSurfaces.addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
+        recyclerViewSurfaces.addItemDecoration(StickHeaderItemDecoration(adapter))
+
     }
 
     override fun onDestroyView() {

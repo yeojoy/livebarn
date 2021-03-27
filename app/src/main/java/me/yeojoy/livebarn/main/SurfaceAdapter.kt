@@ -9,16 +9,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.*
 import me.yeojoy.livebarn.R
+import me.yeojoy.livebarn.customview.StickHeaderItemDecoration
 import me.yeojoy.livebarn.model.LbSurface
 import me.yeojoy.livebarn.network.NetworkConstants
 import java.net.HttpURLConnection
 import java.net.URL
 
 class SurfaceAdapter(private val presenter: TabPageContract.Presenter)
-    : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
+    StickHeaderItemDecoration.StickyHeaderInterface {
 
     companion object {
         private val TAG = SurfaceAdapter::class.simpleName
@@ -128,4 +132,49 @@ class SurfaceAdapter(private val presenter: TabPageContract.Presenter)
 
             BitmapFactory.decodeStream(httpUrlConnection.inputStream)
         }
+
+    /*
+     * looping back to look for its header view
+     */
+    override fun getHeaderPositionForItem(position: Int): Int {
+        var itemPosition = position
+
+        var headerPosition = 0
+        do {
+            if (isHeader(itemPosition)) {
+                headerPosition = itemPosition
+                break;
+            }
+
+            itemPosition--
+
+        } while (itemPosition >= 0)
+
+        return headerPosition
+    }
+
+    /*
+     * return header layout resource id
+     */
+    override fun getHeaderLayout(headerPosition: Int): Int {
+        return R.layout.row_title
+    }
+
+    /*
+     * bind data at a sticky header view
+     */
+    override fun bindHeaderData(header: View?, headerPosition: Int) {
+        if (header is ConstraintLayout) {
+            for (view in header.children) {
+                if (view is TextView) {
+                    view.text = presenter.surfaceAt(headerPosition).venueName
+                    break
+                }
+            }
+        }
+    }
+
+    override fun isHeader(itemPosition: Int): Boolean {
+        return getItemViewType(itemPosition) == VIEW_TYPE_VENUE
+    }
 }
