@@ -31,6 +31,7 @@ class VideoActivity : AppCompatActivity(), VideoContact.View {
         imageButtonClose.setOnClickListener {
             presenter.closeButtonClicked()
         }
+
         videoView = findViewById(R.id.videoView)
         val videoUrl: String = intent?.getStringExtra(Constants.KEY_VIDEO_URL) ?: NetworkConstants.VIDEO_URL
 
@@ -38,15 +39,14 @@ class VideoActivity : AppCompatActivity(), VideoContact.View {
 
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
+    override fun onStop() {
+        super.onStop()
 
-        // Checks the orientation of the screen
-//        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-//            Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show()
-//        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
-//            Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show()
-//        }
+        mediaPlayer?.let {
+            if (it.isPlaying) {
+                it.pause()
+            }
+        }
     }
 
     override fun onDestroy() {
@@ -57,12 +57,15 @@ class VideoActivity : AppCompatActivity(), VideoContact.View {
 
     private fun initVideo(videoUrl: String) {
         mediaPlayer?.setOnPreparedListener {
-            it.start()
+            if (!it.isPlaying) {
+                it.start()
+            }
         }
 
         videoView.holder.addCallback(object: SurfaceHolder.Callback {
             override fun surfaceCreated(holder: SurfaceHolder) {
                 mediaPlayer.apply {
+                    this?.reset()
                     this?.setDataSource(videoUrl)
                     this?.setDisplay(holder)
                     this?.prepareAsync()
